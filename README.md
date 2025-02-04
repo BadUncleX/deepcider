@@ -6,7 +6,7 @@
 3. open `http://localhost:8080/` in browser
 
 ## package
-package `repomix /Users/alexwang/codes/clojure_workspace/my-app --include "src/**/*.clj,src/**/*.cljs" --style xml`
+package `repomix ~/PROJECT_DIR --include "src/**/*.clj,src/**/*.cljs" --style xml`
 
 ## repl with shadow-cljs
 1. launch repl
