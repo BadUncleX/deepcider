@@ -1,0 +1,99 @@
+{:paths ["src/main/clj" "resources"]
+ :deps  {;; Clojure Core & Standard Libraries
+         org.clojure/clojure             {:mvn/version "1.12.0"}
+         org.clojure/data.csv            {:mvn/version "1.1.0"}
+         org.clojure/data.json           {:mvn/version "2.5.0"}
+         org.clojure/tools.logging       {:mvn/version "1.3.0"}
+         org.clojure/core.async          {:mvn/version "1.6.681"}
+         org.clojure/java.jdbc           {:mvn/version "0.7.12"}
+         org.clojure/tools.cli           {:mvn/version "1.0.206"}  
+         org.clojure/spec.alpha          {:mvn/version "0.3.218"} 
+
+         ;; Web Server & Routing
+         metosin/reitit                  {:mvn/version "0.7.2"}
+         metosin/muuntaja                {:mvn/version "0.6.10"}
+         ring/ring                       {:mvn/version "1.12.2"}
+         ring/ring-json                  {:mvn/version "0.5.1"}
+         ring-cors/ring-cors             {:mvn/version "0.1.13"}
+         info.sunng/ring-jetty9-adapter  {:mvn/version "0.35.1"}
+
+         ;; Frontend & HTTP Client
+         reagent/reagent                 {:mvn/version "1.2.0"}
+         re-frame/re-frame               {:mvn/version "1.4.3"}
+         clj-http/clj-http               {:mvn/version "3.13.0"}
+         cljs-http/cljs-http             {:mvn/version "0.1.48"}
+         cljs-ajax/cljs-ajax             {:mvn/version "0.8.4"}
+         day8.re-frame/http-fx           {:mvn/version "0.2.4"}
+
+         ;; Database
+         org.xerial/sqlite-jdbc          {:mvn/version "3.46.1.0"}
+         com.github.seancorfield/next.jdbc {:mvn/version "1.3.955"}
+         com.github.seancorfield/honeysql {:mvn/version "2.6.1203"}
+         com.zaxxer/HikariCP {:mvn/version "5.1.0"}         ;; native version
+
+         ;; Utilities
+         cheshire/cheshire               {:mvn/version "5.13.0"}
+         clj-time/clj-time               {:mvn/version "0.15.2"}
+         hiccup/hiccup                   {:mvn/version "2.0.0-alpha2"}
+         org.apache.commons/commons-text {:mvn/version "1.12.0"}
+         org.apache.pdfbox/pdfbox        {:mvn/version "3.0.3"}
+
+         ;; Logging
+         ch.qos.logback/logback-classic  {:mvn/version "1.5.8"}
+
+         ;; typing checking
+         metosin/malli {:mvn/version "0.16.4"}
+
+         ;; Cursive Inline Nodes
+         cursive/inline-nodes {:git/url "https://github.com/cursive-ide/inline-nodes"
+                               :git/sha "6cc4ee660861a3f4f7809196e7c6c7579e23d290"}
+}
+
+ :aliases
+ {;; Development Environment
+  :dev
+  {:extra-paths ["src/test/clj" "src/main/clj"]  ;; Add test and dev paths
+   :extra-deps
+   {nrepl/nrepl                    {:mvn/version "1.3.1"}
+    cider/cider-nrepl              {:mvn/version "0.51.1"}
+    org.clojure/tools.namespace    {:mvn/version "1.3.0"}
+    com.github.clojure-lsp/clojure-lsp {:mvn/version "2024.02.01-11.01.59"}
+    org.clojure/test.check         {:mvn/version "1.1.1"}}
+   :jvm-opts ["-Dclojure.spec.check-asserts=true"] ;; enable assertions
+   :main-opts ["-e" "(require '[myapp.core.core-core :as core]) (core/-main)"
+               "-m" "nrepl.cmdline"
+               "--middleware" "[cider.nrepl/cider-middleware]"
+               "--port" "7698"]}
+
+  ;; Test Configuration (using -M)
+  :test
+  {:extra-paths ["src/test/clj"]
+   :extra-deps {io.github.cognitect-labs/test-runner
+                {:git/url "https://github.com/cognitect-labs/test-runner.git"
+                 :sha "705ad25bbf0228b1c38d0244a36001c2987d7337"}}
+   :main-opts ["-m" "cognitect.test-runner"
+               "-d" "src/test/clj"
+               "-r" ".*[-_]test$"]}
+
+  ;; Code Coverage
+  :coverage
+  {:extra-deps {cloverage/cloverage {:mvn/version "1.2.4"}}
+   :main-opts ["-m" "cloverage.coverage"
+               "-p" "src/main/clj"
+               "-s" "src/test/clj"]}
+
+  ;; Production Run
+  :prod-run
+  {:extra-deps {nrepl/nrepl       {:mvn/version "1.2.0"}
+                cider/cider-nrepl {:mvn/version "0.28.7"}}
+   :main-opts  ["-m" "myapp.core.core"]}
+
+  ;; Dependency Update Check
+  :outdated
+  {:replace-deps {olical/depot {:mvn/version "2.3.0"}
+                  org.slf4j/slf4j-simple {:mvn/version "2.0.16"}}
+   :main-opts ["-m" "depot.outdated.main"]}
+
+  ;; Simple Run
+  :run
+  {:main-opts ["-m" "myapp.cli.core"]}}}
